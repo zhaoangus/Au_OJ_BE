@@ -21,9 +21,9 @@ mongoose.connection.on('disconnected', function() {
   console.log('Mongodb connected disconnected.')
 })
 
-router.get('/', async (ctx, next) => {
+router.get('/', async (ctx) => {
   const page = ctx.request.query.page
-  const pageSize = 2
+  const pageSize = 5
   const sort = -1
   const skip  = (page - 1) * pageSize
   let params = {}
@@ -31,17 +31,18 @@ router.get('/', async (ctx, next) => {
   let newsPageModel = News.find(params).skip(skip).limit(pageSize).sort({nid: sort})
   let newsModel = await News.find().exec()
   const res = await newsPageModel.exec()
-
-  const pageNum = Math.ceil(newsModel.length / pageSize)
+  const num = newsModel.length
+  const pageNum = Math.ceil(num / pageSize)
 
   ctx.body = {
     pageNum,
+    num,
     res
   }
 })
 
-router.get('/:nid', async (ctx, next) => {
-  const nid = parseInt(ctx.params.nid)
+router.get('/:id', async (ctx) => {
+  const nid = parseInt(ctx.params.id)
   const res = await News.findOne({
     nid
   })
