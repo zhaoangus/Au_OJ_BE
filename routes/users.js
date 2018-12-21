@@ -22,26 +22,26 @@ mongoose.connection.on('disconnected', function() {
 })
 
 router.post('/login', async (ctx) => {
-  var param = {
+  let param = {
     name: ctx.request.body.userName,
     pwd: ctx.request.body.userPwd
   }
-await User.findOne(param, (err, doc) => {
-    if (doc) {
+const res = await User.findOne(param)
+    if (res) {
       ctx.response.body = {
         status: "0",
         msg: '',
         result: {
-          userName: doc.name,
-          userPwd: doc.pwd
+          userName: res.name,
+          userPwd: res.pwd
         }
       }
-      ctx.cookies.set('userName', doc.name, {
+      ctx.cookies.set('userName', res.name, {
         domain: 'localhost',
         path: '/',
         maxAge: 2 * 60 * 60 * 1000
       })
-      ctx.cookies.set('userPwd', doc.pwd, {
+      ctx.cookies.set('userPwd', res.pwd, {
         domain: 'localhost',
         path: '/',
         maxAge: 2 * 60 * 60 * 1000
@@ -53,7 +53,6 @@ await User.findOne(param, (err, doc) => {
       }
     }
   })
-})
 
 router.get('/check', async (ctx) => {
   if (ctx.cookies.get('userName')) {
@@ -84,6 +83,49 @@ router.get('/logout', async (ctx) => {
     status: "0",
     msg: '',
     result: ''
+  }
+})
+
+router.post('/register', async (ctx) => {
+  const search = await User.findOne({name: ctx.request.body.userName})
+  if (search) {
+    ctx.response.body = {
+      status: '2',
+      msg: '账户已被注册！',
+      result: search.name
+    }
+  } else {
+  const find = await User.find({})
+    var uid = ++find.length
+    var user = new User({
+      name: ctx.request.body.userName,
+      uid,
+      nick: ctx.request.body.nickName,
+      motto: '',
+      mail: '',
+      school: '',
+      solve: 0,
+      pwd: ctx.request.body.userPwd,
+      submit: 0,
+      solved: [],
+      unsolved: []
+    })
+  const res = await user.save()
+    if (res) {
+      ctx.response.body = {
+        status: "0",
+        msg: '',
+        result: {
+          uid,
+          find:find.length
+        }
+      }
+    } else {
+      ctx.response.body = {
+        status: '1',
+        msg: '注册失败！'
+      }
+    }
   }
 })
 
