@@ -304,5 +304,23 @@
     "submit": 0,
     "status": 0,
     "tags": []
+  },
+  {
+    "iddone": true,
+    "pid": 18,
+    "time": 1000,
+    "memory": 32768,
+    "title": "A + B",
+    "create": 0,
+    "description": "输入两个数字，输出这两个数字的和",
+    "input": "输入有多组样例，每行有2个数字",
+    "output": "对于每个样例，输出2个数字的和",
+    "in": "1 2\n3 4",
+    "out": "3\n7",
+    "hint": "",
+    "solve": 0,
+    "submit": 0,
+    "status": 0,
+    "tags": []
   }
 ]

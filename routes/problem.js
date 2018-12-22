@@ -41,16 +41,40 @@ router.get('/', async (ctx) => {
   }
 })
 
-// router.get('/:id', async (ctx) => {
-//   const nid = parseInt(ctx.params.id)
-//   const res = await News.findOne({
-//     nid
-//   })
+router.get('/:id/descr', async (ctx) => {
+  const pid = parseInt(ctx.params.id)
+  const res = await Problem.findOne({
+    pid
+  })
 
-//   ctx.body = {
-//     code: 0,
-//     res
-//   }
-// })
+  ctx.body = {
+    code: 0,
+    res
+  }
+})
+
+router.get('/:id/sub', async (ctx) => {
+  const pid = parseInt(ctx.params.id)
+  const res = await Problem.findOne({
+    pid
+  })
+
+  ctx.body = {
+    code: 0,
+    res
+  }
+})
+
+router.get('/:id/stat', async (ctx) => {
+  const pid = parseInt(ctx.params.id)
+  const res = await Problem.findOne({
+    pid
+  })
+
+  ctx.body = {
+    code: 0,
+    res
+  }
+})
 
 module.exports = router
