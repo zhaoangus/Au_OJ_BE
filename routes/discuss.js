@@ -42,7 +42,7 @@ router.get('/', async (ctx) => {
 })
 
 router.get('/:id', async (ctx) => {
-  const did = parseInt(ctx.params.id)
+  let did = parseInt(ctx.params.id)
   const res = await Discuss.findOne({
     did
   })
@@ -55,8 +55,8 @@ router.get('/:id', async (ctx) => {
 
 router.post('/submit', async (ctx) => {
   const find = await Discuss.find({})
-  var did = ++find.length
-  var discuss = new Discuss({
+  let did = ++find.length
+  let discuss = new Discuss({
     did,
     title: ctx.request.body.title,
     create: ctx.request.body.create,
@@ -64,7 +64,7 @@ router.post('/submit', async (ctx) => {
     uid: 1,
     comments: [{
       uid: 1,
-      content: ctx.request.body.content,
+      content: ctx.request.body.reply,
       create: ctx.request.body.create
     }]
   })
@@ -76,6 +76,25 @@ const res = await discuss.save()
       result: {
         did,
         comments: discuss.comments
+      }
+    }
+  } else {
+    ctx.response.body = {
+      status: '1',
+      msg: '添加失败！'
+    }
+  }
+})
+
+router.post('/:id', async (ctx) => {
+  const update = await Discuss.update({did: parseInt(ctx.params.id)},
+  {$push: {comments: {uid:1, content:ctx.request.body.reply, create:ctx.request.body.time}}})
+  if (update) {
+    ctx.response.body = {
+      status: "0",
+      msg: '',
+      result: {
+        update
       }
     }
   } else {
