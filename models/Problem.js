@@ -65,8 +65,8 @@ const problemSchema = mongoose.Schema({
   //   type: Number
   // }
   tags: {
-    type: [String],
-    default: []
+    type: String,
+    default: ''
   }
 })
 

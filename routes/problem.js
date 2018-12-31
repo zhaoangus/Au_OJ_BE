@@ -23,7 +23,7 @@ mongoose.connection.on('disconnected', function() {
 
 router.get('/', async (ctx) => {
   const page = ctx.request.query.page || 1
-  const pageSize = 2
+  const pageSize = 10
   const sort = -1
   const skip  = (page - 1) * pageSize
   let params = {}
@@ -74,6 +74,25 @@ router.get('/:id/stat', async (ctx) => {
   ctx.body = {
     code: 0,
     res
+  }
+})
+
+router.get('/:id', async (ctx) => {
+  const pid = parseInt(ctx.params.id)
+  const res = await Problem.find({
+    pid
+  })
+
+  if (res) {
+    ctx.body = {
+      code: 0,
+      res
+    }
+  } else {
+    ctx.body = {
+      code: 1,
+      res
+    }
   }
 })
 

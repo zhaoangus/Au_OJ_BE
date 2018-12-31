@@ -41,6 +41,20 @@ router.get('/', async (ctx) => {
   }
 })
 
+router.get('/:cid/problem/:id', async (ctx) => {
+  const cid = parseInt(ctx.params.cid)
+  // const pid = parseInt(ctx.params.id)
+  const res = await Contest.findOne({
+    cid,
+    // 'problemList.id': pid
+  })
+
+  ctx.body = {
+    code: 0,
+    res
+  }
+})
+
 router.get('/:id', async (ctx) => {
   const cid = parseInt(ctx.params.id)
   const res = await Contest.findOne({
