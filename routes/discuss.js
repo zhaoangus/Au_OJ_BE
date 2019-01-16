@@ -23,7 +23,7 @@ mongoose.connection.on('disconnected', function() {
 
 router.get('/', async (ctx) => {
   const page = ctx.request.query.page || 1
-  const pageSize = 30
+  const pageSize = 20
   const sort = -1
   const skip  = (page - 1) * pageSize
   let params = {}

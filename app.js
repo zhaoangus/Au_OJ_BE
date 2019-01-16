@@ -5,6 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+// const historyFallback = require('koa2-history-api-fallback')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -34,6 +35,13 @@ app.use(async (ctx, next) => {
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+})
+
+app.use(async (ctx, next) => {
+  await next()
+  if (ctx.status === 404) {
+    return send(ctx, './index.html')
+  }
 })
 
 // routes
