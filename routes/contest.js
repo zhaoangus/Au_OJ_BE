@@ -1,11 +1,14 @@
 const Router = require('koa-router')
 const mongoose = require('mongoose')
+const utils = require('utility')
 
 const Contest = require('../models/Contest')
 
 const router = new Router({
   prefix: '/contest'
 })
+
+const _filter = {'encrypt': 0, '_id': 0}
 
 mongoose.connect('mongodb://127.0.0.1:27017/Au_OJ')
 
@@ -26,9 +29,8 @@ router.get('/', async (ctx) => {
   const pageSize = 20
   const sort = -1
   const skip  = (page - 1) * pageSize
-  let params = {}
 
-  let contestPageModel = Contest.find(params).skip(skip).limit(pageSize).sort({cid: sort})
+  let contestPageModel = Contest.find().skip(skip).limit(pageSize).sort({cid: sort})
   let contestModel = await Contest.find().exec()
   const res = await contestPageModel.exec()
   const num = contestModel.length
@@ -66,5 +68,10 @@ router.get('/:id', async (ctx) => {
     res
   }
 })
+
+function md5Pwd (pwd) {
+  const salt = 'zhao_angus_666lalala!@#EEFRFdwd~'
+  return utils.md5(utils.md5(pwd + salt))
+}
 
 module.exports = router

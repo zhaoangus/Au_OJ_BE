@@ -22,7 +22,8 @@
     "koa-views": "^5.2.1",
     "koa2-history-api-fallback": "0.0.5",
     "mongoose": "^5.3.13",
-    "pug": "^2.0.0-rc.1"
+    "pug": "^2.0.0-rc.1",
+    "utility": "^1.15.0"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"

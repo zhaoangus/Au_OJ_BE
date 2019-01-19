@@ -13,6 +13,7 @@ const news = require('./routes/news')
 const problem = require('./routes/problem')
 const discuss = require('./routes/discuss')
 const contest = require('./routes/contest')
+const ranklist = require('./routes/ranklist')
 
 // error handler
 onerror(app)
@@ -51,6 +52,7 @@ app.use(news.routes(), news.allowedMethods())
 app.use(problem.routes(), problem.allowedMethods())
 app.use(discuss.routes(), discuss.allowedMethods())
 app.use(contest.routes(), contest.allowedMethods())
+app.use(ranklist.routes(), ranklist.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
