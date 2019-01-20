@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema({
   unsolved: {
     type: [Number],
     default: []
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 })
 

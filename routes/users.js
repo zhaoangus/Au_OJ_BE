@@ -33,7 +33,8 @@ const res = await User.findOne(param)
         msg: '',
         result: {
           userName: res.name,
-          userPwd: res.pwd
+          userPwd: res.pwd,
+          isAdmin: res.isAdmin
         }
       }
       ctx.cookies.set('userName', res.name, {
@@ -42,6 +43,11 @@ const res = await User.findOne(param)
         maxAge: 2 * 60 * 60 * 1000
       })
       ctx.cookies.set('userPwd', res.pwd, {
+        domain: 'localhost',
+        path: '/',
+        maxAge: 2 * 60 * 60 * 1000
+      }),
+      ctx.cookies.set('isAdmin', res.isAdmin, {
         domain: 'localhost',
         path: '/',
         maxAge: 2 * 60 * 60 * 1000
@@ -56,12 +62,23 @@ const res = await User.findOne(param)
 
 router.get('/check', async (ctx) => {
   if (ctx.cookies.get('userName')) {
-    ctx.response.body = {
-      status: "0",
-      msg: '',
-      result: {
-        userName: ctx.cookies.get('userName'),
-        userPwd: ctx.cookies.get('userPwd')
+    if (ctx.cookies.get('isAdmin')) {
+      ctx.body = {
+        status: 2,
+        msg: 'Admin!',
+        result: {
+          userName: ctx.cookies.get('userName'),
+          isAdmin: ctx.cookies.get('isAdmin')
+        }
+      }
+    } else {
+      ctx.response.body = {
+        status: "0",
+        msg: '',
+        result: {
+          userName: ctx.cookies.get('userName'),
+          userPwd: ctx.cookies.get('userPwd')
+        }
       }
     }
   } else {
