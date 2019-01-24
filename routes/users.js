@@ -40,17 +40,17 @@ const res = await User.findOne(param)
       ctx.cookies.set('userName', res.name, {
         domain: 'localhost',
         path: '/',
-        maxAge: 2 * 60 * 60 * 1000
+        maxAge: 5 * 60 * 60 * 1000
       })
       ctx.cookies.set('userPwd', res.pwd, {
         domain: 'localhost',
         path: '/',
-        maxAge: 2 * 60 * 60 * 1000
+        maxAge: 5 * 60 * 60 * 1000
       }),
       ctx.cookies.set('isAdmin', res.isAdmin, {
         domain: 'localhost',
         path: '/',
-        maxAge: 2 * 60 * 60 * 1000
+        maxAge: 5 * 60 * 60 * 1000
       })
     } else {
       ctx.response.body = {
