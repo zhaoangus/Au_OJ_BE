@@ -128,21 +128,21 @@ router.post('/register', async (ctx) => {
       unsolved: []
     })
   const res = await user.save()
-    if (res) {
-      ctx.response.body = {
-        status: "0",
-        msg: '',
-        result: {
-          uid,
-          find:find.length
-        }
-      }
-    } else {
-      ctx.response.body = {
-        status: '1',
-        msg: '注册失败！'
+  if (res) {
+    ctx.response.body = {
+      status: "0",
+      msg: '',
+      result: {
+        uid,
+        find:find.length
       }
     }
+  } else {
+    ctx.response.body = {
+      status: '1',
+      msg: '注册失败！'
+    }
+  }
   }
 })
 

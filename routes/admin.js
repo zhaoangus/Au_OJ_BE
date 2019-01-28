@@ -2,6 +2,7 @@ const Router = require('koa-router')
 const mongoose = require('mongoose')
 
 const User = require('../models/User')
+const News = require('../models/News')
 
 const router = new Router()
 
@@ -82,6 +83,30 @@ router.get('/admin/list', async ctx => {
     ctx.body = {
       code: 1,
       msg: '出错了！'
+    }
+  }
+})
+
+router.post('/admin/newscreate', async ctx => {
+  const find = await News.find({})
+  const nid = ++find.length
+  let news = new News({
+    nid,
+    title: ctx.request.body.title,
+    content: ctx.request.body.content,
+    status: 2,
+    create: ctx.request.body.create
+  })
+  const res = await news.save()
+  if (res) {
+    ctx.body = {
+      code: 0,
+      res
+    }
+  } else {
+    ctx.body = {
+      code: 1,
+      msg: 'error!'
     }
   }
 })

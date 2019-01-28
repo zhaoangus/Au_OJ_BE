@@ -4,7 +4,11 @@ const newsSchema = mongoose.Schema({
   nid: Number,
   title: String,
   content: String,
-  status: Number
+  status: Number,
+  create: {
+    type: Number,
+    default: Date.now
+  }
 })
 
 module.exports = mongoose.model('New', newsSchema)
