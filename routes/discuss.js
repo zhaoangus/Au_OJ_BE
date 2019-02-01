@@ -91,7 +91,7 @@ router.post('/:id', async (ctx) => {
   {$push: {comments: {uid:1, content:ctx.request.body.reply, create:ctx.request.body.time}}})
   if (update) {
     ctx.response.body = {
-      status: "0",
+      status: 0,
       msg: '',
       result: {
         update
@@ -99,7 +99,7 @@ router.post('/:id', async (ctx) => {
     }
   } else {
     ctx.response.body = {
-      status: '1',
+      status: 0,
       msg: '添加失败！'
     }
   }

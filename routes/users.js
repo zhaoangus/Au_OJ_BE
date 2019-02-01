@@ -34,6 +34,7 @@ const res = await User.findOne(param)
         result: {
           userName: res.name,
           userPwd: res.pwd,
+          uid: parseInt(res.uid),
           isAdmin: res.isAdmin
         }
       }
@@ -48,6 +49,11 @@ const res = await User.findOne(param)
         maxAge: 5 * 60 * 60 * 1000
       }),
       ctx.cookies.set('isAdmin', res.isAdmin, {
+        domain: 'localhost',
+        path: '/',
+        maxAge: 5 * 60 * 60 * 1000
+      })
+      ctx.cookies.set('uid', parseInt(res.uid), {
         domain: 'localhost',
         path: '/',
         maxAge: 5 * 60 * 60 * 1000
@@ -68,7 +74,8 @@ router.get('/check', async (ctx) => {
         msg: 'Admin!',
         result: {
           userName: ctx.cookies.get('userName'),
-          isAdmin: ctx.cookies.get('isAdmin')
+          isAdmin: ctx.cookies.get('isAdmin'),
+          uid: ctx.cookies.get('uid')
         }
       }
     } else {
@@ -77,7 +84,7 @@ router.get('/check', async (ctx) => {
         msg: '',
         result: {
           userName: ctx.cookies.get('userName'),
-          userPwd: ctx.cookies.get('userPwd')
+          uid: ctx.cookies.get('uid')
         }
       }
     }
@@ -143,6 +150,21 @@ router.post('/register', async (ctx) => {
       msg: '注册失败！'
     }
   }
+  }
+})
+
+router.post('/name', async ctx => {
+  const res = await User.find({uid: ctx.request.body.uid})
+  if (res) {
+    ctx.body = {
+      code: 0,
+      res
+    }
+  } else {
+    ctx.body = {
+      code: 1,
+      mes: 'error!'
+    }
   }
 })
 
