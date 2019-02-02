@@ -1,5 +1,6 @@
 const Router = require('koa-router')
 const mongoose = require('mongoose')
+const utils = require('utility')
 
 const User = require('../models/User')
 
@@ -24,7 +25,7 @@ mongoose.connection.on('disconnected', function() {
 router.post('/login', async (ctx) => {
   let param = {
     name: ctx.request.body.userName,
-    pwd: ctx.request.body.userPwd
+    pwd: md5Pwd(ctx.request.body.userPwd)
   }
 const res = await User.findOne(param)
     if (res) {
@@ -33,7 +34,6 @@ const res = await User.findOne(param)
         msg: '',
         result: {
           userName: res.name,
-          userPwd: res.pwd,
           uid: parseInt(res.uid),
           isAdmin: res.isAdmin
         }
@@ -43,11 +43,6 @@ const res = await User.findOne(param)
         path: '/',
         maxAge: 5 * 60 * 60 * 1000
       })
-      ctx.cookies.set('userPwd', res.pwd, {
-        domain: 'localhost',
-        path: '/',
-        maxAge: 5 * 60 * 60 * 1000
-      }),
       ctx.cookies.set('isAdmin', res.isAdmin, {
         domain: 'localhost',
         path: '/',
@@ -129,7 +124,7 @@ router.post('/register', async (ctx) => {
       mail: '',
       school: '',
       solve: 0,
-      pwd: ctx.request.body.userPwd,
+      pwd: md5Pwd(ctx.request.body.userPwd),
       submit: 0,
       solved: [],
       unsolved: []
@@ -167,5 +162,10 @@ router.post('/name', async ctx => {
     }
   }
 })
+
+function md5Pwd (pwd) {
+  const salt = 'zhao_angus_666heiheihei!@#EEFRFdwd~'
+  return utils.md5(utils.md5(pwd + salt))
+}
 
 module.exports = router
