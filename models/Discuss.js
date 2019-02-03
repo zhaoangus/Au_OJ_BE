@@ -24,9 +24,17 @@ const discussSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  name: {
+    type: String,
+    required: true
+  },
   comments: [{
     uid: {
       type: Number,
+      required: true
+    },
+    name: {
+      type: String,
       required: true
     },
     content: {

@@ -149,7 +149,7 @@ router.post('/register', async (ctx) => {
 })
 
 router.post('/name', async ctx => {
-  const res = await User.find({uid: ctx.request.body.uid})
+  const res = await User.findOne({uid: ctx.request.body.uid})
   if (res) {
     ctx.body = {
       code: 0,
