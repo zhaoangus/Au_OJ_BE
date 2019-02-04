@@ -61,10 +61,12 @@ router.post('/submit', async (ctx) => {
     title: ctx.request.body.title,
     create: ctx.request.body.create,
     update: ctx.request.body.create,
-    uid: 1,
+    uid: ctx.request.body.uid,
+    name: ctx.request.body.name,
     comments: [{
-      uid: 1,
-      content: ctx.request.body.reply,
+      uid: ctx.request.body.uid,
+      name: ctx.request.body.name,
+      content: ctx.request.body.content,
       create: ctx.request.body.create
     }]
   })
@@ -88,7 +90,7 @@ const res = await discuss.save()
 
 router.post('/:id', async (ctx) => {
   const update = await Discuss.update({did: parseInt(ctx.params.id)},
-  {$push: {comments: {uid:1, content:ctx.request.body.reply, create:ctx.request.body.time}}})
+  {$push: {comments: {uid:ctx.request.body.uid, name:ctx.request.body.name, content:ctx.request.body.reply, create:ctx.request.body.time}}})
   if (update) {
     ctx.response.body = {
       status: 0,
